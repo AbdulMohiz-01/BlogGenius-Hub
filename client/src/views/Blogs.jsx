@@ -2,12 +2,19 @@ import Navbar from "../components/Navbar";
 import { retrieveBlog } from "../Service/api";
 import { useState, useEffect } from "react";
 import BlogCard from "../components/BlogCard";
+import Loading from "../components/Loading";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   async function getBlogs() {
-    setBlogs(await retrieveBlog());
+    const res = await retrieveBlog();
+    // set loading if data is not received
+    console.log(res);
+    const data = res.data;
+    setLoading(false);
+    setBlogs(data);
   }
 
   useEffect(() => {
@@ -37,11 +44,21 @@ export default function Blogs() {
         </div>
       </div>
 
-      <div className="container w-full m-6 mt-24 grid gap-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
-        {blogs.map((blog, index) => (
-          <BlogCard key={index} title={blog.title} blog={blog.blog} />
-        ))}
-      </div>
+      {loading ? (
+        <Loading text="Loading Blog..." />
+      ) : blogs.length > 0 ? (
+        <div className="container w-full m-8 mt-24 grid gap-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
+          {blogs.map((blog, index) => (
+            <BlogCard key={index} title={blog.title} blog={blog.blog} />
+          ))}
+        </div>
+      ) : (
+        <div className="container w-full m-8 mt-24 grid gap-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
+          <div className="text-3xl font-bold text-center text-gray-700">
+            No Blogs Found
+          </div>
+        </div>
+      )}
     </div>
   );
 }

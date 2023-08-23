@@ -2,6 +2,7 @@ import ColorButton from "../components/ColorButton";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Home, PenLine, Newspaper } from "lucide-react"; // Import your icons library here
+import Register from "./Register";
 
 const Navbar = () => {
   return (
@@ -14,7 +15,11 @@ const Navbar = () => {
           <NavItem title="Blogs" icon={<Newspaper size={20} />} />
         </nav>
         <div>
-          <ColorButton btnText="Sign in" btnColor="primary" />
+          <ColorButton
+            btnText="Sign in"
+            btnColor="primary"
+            modal={<Register />}
+          />
         </div>
       </div>
     </>

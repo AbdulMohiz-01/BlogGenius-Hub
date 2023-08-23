@@ -1,8 +1,16 @@
 import { PropTypes } from "prop-types";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import Modal from "./Modal";
 
 export default function ColorButton(props) {
-  const { btnText, btnColor } = props;
+  const { btnText, btnColor, goto, modal } = props;
+  const [showModal, setShowModal] = useState(false);
+
+  function handleModel(state) {
+    setShowModal(state);
+  }
   const btnClass = clsx(
     "p-2 pl-6 pr-6 rounded-3xl hover:scale-105 transition-transform font-bold",
     {
@@ -19,7 +27,22 @@ export default function ColorButton(props) {
 
   return (
     <>
-      <button className={btnClass}>{btnText.toUpperCase()}</button>
+      {goto ? (
+        <Link to={goto} className={btnClass} style={{ textDecoration: "none" }}>
+          {btnText}
+        </Link>
+      ) : (
+        <button
+          className={btnClass}
+          style={{ textDecoration: "none" }}
+          onClick={() => handleModel(true)}
+        >
+          {btnText}
+        </button>
+      )}
+      {showModal ? (
+        <Modal closeModal={() => handleModel(false)}>{modal}</Modal>
+      ) : null}
     </>
   );
 }
@@ -28,4 +51,6 @@ export default function ColorButton(props) {
 ColorButton.propTypes = {
   btnText: PropTypes.string,
   btnColor: PropTypes.string,
+  goto: PropTypes.string,
+  modal: PropTypes.element,
 };

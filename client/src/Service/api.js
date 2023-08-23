@@ -14,11 +14,25 @@ export const generateBlog = async (title) => {
 
 export const retrieveBlog = async () => {
     try {
-        const { data } = await axios.get(`${API_URL}/api/retrieve`);
-        console.log(data)
-        return data;
+        const res = await axios.get(`${API_URL}/api/retrieve`);
+        console.log(res)
+        return res;
     } catch (error) {
         return error
+    }
+}
+
+export const registerUser = async (user, ifErrorfunction) => {
+    try {
+        const { data } = await axios.post(`${API_URL}/api/register`, JSON.stringify(user), {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            'withCredentials': true
+        });
+        return data;
+    } catch (error) {
+        ifErrorfunction(error)
     }
 }
 

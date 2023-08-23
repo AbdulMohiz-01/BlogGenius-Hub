@@ -93,16 +93,17 @@ export default function Write() {
         <div className="flex flex-col gap-12">
           <div
             id="results"
-            className="flex flex-col gap-5 h-96 border border-purple-500 bg-white rounded-lg p-6"
+            className="flex flex-col gap-5 h-96 min-h-96 border border-purple-500 bg-white rounded-lg p-6 overflow-auto"
           >
             <div className="text-2xl font-semibold text-purple-600">
-              Your Blog
+              {title || "Your title will appear here"}
             </div>
             <div className="text-lg text-gray-700 leading-relaxed">
               {isTyping ? typedContent : rblog || "Your blog will appear here"}
             </div>
           </div>
         </div>
+
         {/* End of Results */}
 
         <div className="relative">

@@ -10,7 +10,12 @@ const app = express();
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGODB_URI;
 
-app.use(cors());
+
+const corsOptions = {
+    origin: 'http://localhost:5173', // Replace with your frontend's origin
+    credentials: true, // Allow credentials (cookies, etc.)
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Connect to MongoDB
@@ -27,8 +32,11 @@ mongoose.connection.on('connected', () => {
 });
 
 const blogRoutes = require('./routes/blogRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 
 app.use('/api', blogRoutes);
+app.use('/api', userRoutes);
+
 
 
 app.listen(PORT, () => {
